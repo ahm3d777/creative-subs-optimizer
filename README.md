@@ -1,262 +1,338 @@
-# Creative Subs Optimizer
+# Creative Subs Optimizer - Vercel Edition
 
-A self-hosted subscription management tool for creative professionals to track, analyze, and optimize their software subscriptions.
+A self-hosted subscription management tool for creative professionals, optimized for **Vercel deployment**.
 
-## Features
+## ✨ Key Features
 
-- 📊 **Dashboard Overview**: Real-time view of all subscriptions and spending
-- 🔔 **Smart Alerts**: Renewal reminders and free trial notifications
-- 📈 **Spend Analytics**: Visual breakdowns by category and trends
-- 🧹 **Dead Weight Detection**: Identify unused subscriptions based on usage patterns
-- 👥 **Multi-User Support**: Manage subscriptions for teams or family
-- 📤 **Import/Export**: CSV support for easy data migration
-- 🔒 **Secure & Private**: Self-hosted, encrypted data, no external APIs
-
-## Tech Stack
-
-- **Frontend**: React.js, Chart.js, Tailwind CSS
-- **Backend**: Node.js, Express.js
-- **Database**: SQLite (zero-config, file-based)
-- **Auth**: JWT with bcrypt
-- **Notifications**: Nodemailer (email alerts)
-
-## Quick Start
-
-### Prerequisites
-
-- Node.js 16+ and npm
-- Git
-
-### Installation
-
-1. **Clone the repository**
-```bash
-git clone https://github.com/yourusername/creative-subs-optimizer.git
-cd creative-subs-optimizer
-```
-
-2. **Install Backend Dependencies**
-```bash
-cd backend
-npm install
-```
-
-3. **Install Frontend Dependencies**
-```bash
-cd ../frontend
-npm install
-```
-
-4. **Configure Environment Variables**
-
-Create a `.env` file in the `backend` directory:
-```env
-PORT=5000
-JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
-NODE_ENV=development
-
-# Optional: Email notifications (configure your SMTP server)
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=your-email@gmail.com
-SMTP_PASS=your-app-password
-EMAIL_FROM=noreply@subsoptimizer.local
-```
-
-Create a `.env` file in the `frontend` directory:
-```env
-REACT_APP_API_URL=http://localhost:5000
-```
-
-5. **Initialize Database**
-
-The database will be automatically created on first run. It's stored at `backend/database.sqlite`.
-
-6. **Start the Application**
-
-Open two terminal windows:
-
-**Terminal 1 - Backend:**
-```bash
-cd backend
-npm start
-```
-
-**Terminal 2 - Frontend:**
-```bash
-cd frontend
-npm start
-```
-
-7. **Access the App**
-
-Open your browser and navigate to: `http://localhost:3000`
-
-## Usage
-
-### First Time Setup
-
-1. **Register an Account**: Click "Sign Up" and create your account
-2. **Add Subscriptions**: Click "Add Subscription" to manually enter your subscriptions
-3. **Import Data** (Optional): Use the CSV import feature to bulk-add subscriptions
-4. **Set Alerts**: Configure renewal reminders and notifications
-5. **Explore Analytics**: View your spending breakdown and optimization suggestions
-
-### CSV Import Format
-
-Download the sample CSV template from the app, or use this format:
-
-```csv
-name,cost,billing_cycle,category,next_billing_date,last_used,notes
-Adobe Creative Cloud,54.99,monthly,Design Tools,2025-11-15,2025-10-20,Essential for client work
-Figma Pro,12.00,monthly,Design Tools,2025-11-10,2025-10-25,
-GitHub Pro,4.00,monthly,Development,2025-11-01,2025-09-15,Rarely use pro features
-```
-
-## Default Accounts
-
-For testing, you can create an account or use these credentials after first run:
-- Email: demo@example.com
-- Password: demo123
-
-(You'll need to create this account on first launch)
-
-## Project Structure
-
-```
-creative-subs-optimizer/
-├── backend/
-│   ├── src/
-│   │   ├── config/         # Configuration files
-│   │   ├── middleware/     # Express middleware
-│   │   ├── models/         # Database models
-│   │   ├── routes/         # API routes
-│   │   ├── services/       # Business logic
-│   │   └── utils/          # Helper functions
-│   ├── database.sqlite     # SQLite database (auto-created)
-│   ├── package.json
-│   └── server.js
-├── frontend/
-│   ├── public/
-│   ├── src/
-│   │   ├── components/     # React components
-│   │   ├── contexts/       # React context providers
-│   │   ├── pages/          # Page components
-│   │   ├── utils/          # Helper functions
-│   │   └── App.js
-│   └── package.json
-└── README.md
-```
-
-## Features Explained
-
-### Dashboard
-- View all active subscriptions at a glance
-- See total monthly and annual spending
-- Quick access to upcoming renewals
-- Savings potential calculator
-
-### Alerts System
-- Email notifications 7 days before renewal
-- Free trial expiration warnings (3 days before)
-- Price hike detection (manual entry)
-- Unused subscription alerts (90+ days inactive)
-
-### Analytics
-- Spending breakdown by category
-- Monthly trends visualization
-- Cost per category comparison
-- ROI insights for creative tools
-
-### Dead Weight Detection
-- Rule-based analysis: subscriptions unused for 90+ days
-- Overlap detection: similar tools you're paying for
-- Downgrade suggestions based on usage patterns
-
-## Deployment
-
-### Option 1: Local/Home Server
-
-1. Set `NODE_ENV=production` in backend `.env`
-2. Build frontend: `cd frontend && npm run build`
-3. Serve frontend build folder with backend or use Nginx
-4. Run with PM2 for process management:
-```bash
-npm install -g pm2
-cd backend
-pm2 start server.js --name subs-optimizer
-```
-
-### Option 2: VPS (DigitalOcean, Linode, etc.)
-
-1. Clone repo to your VPS
-2. Follow installation steps
-3. Configure Nginx as reverse proxy
-4. Set up SSL with Let's Encrypt
-5. Use PM2 or systemd for process management
-
-### Option 3: Docker (Coming Soon)
-
-Dockerfile and docker-compose.yml will be added for containerized deployment.
-
-## Security Considerations
-
-- **Change JWT Secret**: Always use a strong, unique JWT secret in production
-- **HTTPS**: Use SSL/TLS in production (Let's Encrypt is free)
-- **Database Backups**: Regularly backup `database.sqlite`
-- **Email Security**: Use app-specific passwords for email services
-- **Firewall**: Configure firewall to only expose necessary ports
-
-## Troubleshooting
-
-### Database Issues
-- Delete `backend/database.sqlite` to reset database
-- Check file permissions for write access
-
-### Port Conflicts
-- Change ports in `.env` files if 3000/5000 are in use
-
-### Email Notifications Not Working
-- Verify SMTP credentials
-- Check spam folder
-- Use app-specific passwords for Gmail/Yahoo
-
-### Frontend Can't Connect to Backend
-- Ensure backend is running on correct port
-- Check `REACT_APP_API_URL` in frontend `.env`
-- Verify CORS settings in backend
-
-## Contributing
-
-This is a self-hosted, open-source project. Contributions welcome!
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## Roadmap
-
-- [ ] Docker containerization
-- [ ] Mobile-responsive improvements
-- [ ] Dark mode
-- [ ] Advanced reporting
-- [ ] Category customization
-- [ ] Multi-currency support
-- [ ] Data export to PDF
-- [ ] Browser extension for quick add
-
-## License
-
-MIT License - feel free to use for personal or commercial projects
-
-## Support
-
-For issues or questions:
-- Open an issue on GitHub
-- Check the troubleshooting section
-- Review closed issues for solutions
+- 📊 **Dashboard Overview** - Real-time spending analytics
+- 💳 **Subscription Management** - Add, edit, delete subscriptions
+- 📈 **Smart Analytics** - Visual charts and spending trends
+- 🧹 **Dead Weight Detection** - Identify unused subscriptions
+- 💡 **Recommendations** - AI-powered savings suggestions
+- 🔒 **Secure** - JWT authentication with Vercel Postgres
 
 ---
 
-**Built for creative professionals who want control over their subscription spending without sacrificing privacy.** 🎨💰
+## 🚀 Deploy to Vercel (5 Minutes)
+
+### Prerequisites
+
+- GitHub account
+- Vercel account (free at https://vercel.com)
+
+### Step 1: Push to GitHub
+
+```bash
+# If you haven't already, initialize git
+git init
+git add .
+git commit -m "Initial commit - Vercel edition"
+
+# Push to your GitHub repository
+git remote add origin https://github.com/yourusername/your-repo-name.git
+git branch -M main
+git push -u origin main
+```
+
+### Step 2: Import to Vercel
+
+1. Go to https://vercel.com/new
+2. Click "Import Project"
+3. Select your GitHub repository
+4. Vercel will auto-detect settings ✅
+
+### Step 3: Add Vercel Postgres Database
+
+1. In your Vercel project dashboard, go to **Storage** tab
+2. Click "Create Database"
+3. Select **Postgres**
+4. Choose **free Hobby tier** (5000 rows, perfect for personal use)
+5. Click "Create"
+6. Vercel will automatically add database environment variables
+
+### Step 4: Add Required Environment Variable
+
+In Vercel project settings → **Environment Variables**, add:
+
+```
+JWT_SECRET = your-super-secret-key-change-this-in-production
+```
+
+(Generate a random string for security)
+
+### Step 5: Deploy!
+
+Click **"Deploy"** - Vercel will:
+- ✅ Build your React frontend
+- ✅ Deploy serverless API functions
+- ✅ Connect to Postgres database
+- ✅ Give you a live URL!
+
+⏳ **Wait 2-3 minutes...**
+
+🎉 **Your app is live!** Visit: `https://your-project.vercel.app`
+
+---
+
+## 📊 Database Auto-Initialization
+
+The database tables are automatically created on first API call. No manual setup needed!
+
+Tables created:
+- `users` - User accounts
+- `subscriptions` - Subscription data
+- `user_settings` - User preferences
+
+---
+
+## 🔧 Local Development
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+### Set Up Local Postgres (Optional)
+
+For local development, you can use Vercel's local Postgres:
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Link to your project
+vercel link
+
+# Pull environment variables (including database connection)
+vercel env pull .env.local
+
+# Start development server
+npm run dev
+```
+
+The app will run at `http://localhost:3000`
+
+---
+
+## 📁 Project Structure
+
+```
+subs-optimizer-vercel/
+├── api/                    # Serverless API functions
+│   ├── auth/              # Authentication endpoints
+│   │   ├── register.js
+│   │   ├── login.js
+│   │   └── me.js
+│   ├── subscriptions/     # CRUD operations
+│   │   ├── index.js
+│   │   └── [id].js
+│   ├── analytics/         # Analytics endpoints
+│   └── lib/               # Shared utilities
+│       ├── db.js          # Vercel Postgres
+│       └── auth.js        # JWT middleware
+├── src/                   # React frontend
+│   ├── components/
+│   ├── pages/
+│   ├── contexts/
+│   └── utils/
+├── public/
+├── package.json
+└── vercel.json           # Vercel configuration
+```
+
+---
+
+## 🌐 API Endpoints
+
+All API routes are automatically available at `/api/*`:
+
+### Authentication
+- `POST /api/auth/register` - Create account
+- `POST /api/auth/login` - Login
+- `GET /api/auth/me` - Get current user
+
+### Subscriptions
+- `GET /api/subscriptions` - List all
+- `POST /api/subscriptions` - Create new
+- `GET /api/subscriptions/[id]` - Get one
+- `PUT /api/subscriptions/[id]` - Update
+- `DELETE /api/subscriptions/[id]` - Delete
+
+### Analytics
+- `GET /api/analytics/overview` - Spending overview
+- `GET /api/analytics/by-category` - Category breakdown
+- `GET /api/analytics/dead-weight` - Unused subscriptions
+- `GET /api/analytics/trends` - Spending trends
+- `GET /api/analytics/recommendations` - Savings tips
+
+---
+
+## ⚙️ Environment Variables
+
+Required in Vercel:
+
+```env
+# Automatically added by Vercel Postgres
+POSTGRES_URL
+POSTGRES_PRISMA_URL
+POSTGRES_URL_NON_POOLING
+POSTGRES_USER
+POSTGRES_HOST
+POSTGRES_PASSWORD
+POSTGRES_DATABASE
+
+# You must add this
+JWT_SECRET=your-secret-key-here
+```
+
+---
+
+## 🎨 Features Overview
+
+### Dashboard
+- Total monthly/yearly spending
+- Active subscriptions count
+- Upcoming renewals
+- Quick action buttons
+
+### Subscriptions
+- Full CRUD operations
+- CSV import/export
+- Mark subscriptions as "used"
+- Filter by category
+
+### Analytics
+- Pie charts (spending by category)
+- Line graphs (spending trends)
+- Dead weight detection
+- Optimization recommendations
+
+### Settings
+- Profile management
+- Notification preferences
+- Usage thresholds
+
+---
+
+## 🔒 Security Features
+
+- ✅ JWT token authentication
+- ✅ Password hashing with bcrypt
+- ✅ Secure Vercel Postgres connection
+- ✅ CORS protection
+- ✅ Environment variable protection
+
+---
+
+## 💰 Pricing (Free Tier Limits)
+
+**Vercel Free Tier:**
+- Unlimited deployments
+- 100GB bandwidth/month
+- Automatic HTTPS
+
+**Vercel Postgres Hobby:**
+- 5,000 rows (plenty for personal use)
+- 256 MB storage
+- 60 hours compute time/month
+
+**Perfect for:**
+- Personal use
+- Small teams (1-5 users)
+- Testing and demos
+
+---
+
+## 🐛 Troubleshooting
+
+### "Database connection failed"
+- Ensure Vercel Postgres is created and connected
+- Check environment variables are set
+- Redeploy after adding database
+
+### "Login not working"
+- Verify JWT_SECRET is set in environment variables
+- Check browser console for errors
+- Clear browser cache and cookies
+
+### "API errors"
+- Check Vercel Function Logs in dashboard
+- Ensure all environment variables are present
+- Try redeploying
+
+---
+
+## 📈 Upgrading
+
+Need more capacity?
+
+**Vercel Pro ($20/month):**
+- Unlimited bandwidth
+- Advanced analytics
+- Priority support
+
+**Vercel Postgres Pro ($20/month):**
+- 100,000 rows
+- 2 GB storage
+- More compute time
+
+---
+
+## 🚀 Custom Domain
+
+1. Go to Vercel project → **Settings** → **Domains**
+2. Add your custom domain
+3. Update DNS records as instructed
+4. SSL certificate automatically provisioned!
+
+---
+
+## 📝 CSV Import Format
+
+```csv
+name,cost,billing_cycle,category,next_billing_date,last_used,notes
+Adobe CC,54.99,monthly,Design Tools,2025-11-15,2025-10-20,Essential
+Figma Pro,12.00,monthly,Design Tools,2025-11-10,2025-10-25,
+GitHub Pro,4.00,monthly,Development,2025-11-01,,Rarely use
+```
+
+---
+
+## 🤝 Contributing
+
+This is a self-hosted personal tool. Feel free to fork and customize!
+
+---
+
+## 📄 License
+
+MIT License - Use freely for personal or commercial projects.
+
+---
+
+## 💡 Tips
+
+1. **Set realistic thresholds** in Settings (default: 90 days unused)
+2. **Mark subscriptions as "used"** regularly for accurate analytics
+3. **Export data** periodically as backup
+4. **Review recommendations** monthly to optimize spending
+5. **Check Vercel logs** for API errors
+
+---
+
+## 🆘 Need Help?
+
+- **Vercel Docs**: https://vercel.com/docs
+- **Vercel Postgres**: https://vercel.com/docs/storage/vercel-postgres
+- **Check Function Logs**: Vercel Dashboard → Your Project → Logs
+
+---
+
+**Built with ❤️ for creative professionals who want control over their subscription spending**
+
+---
+
+## 🎉 You're All Set!
+
+Visit your Vercel URL and start optimizing your subscriptions! 🚀
